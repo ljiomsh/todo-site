@@ -17,6 +17,8 @@ React + TypeScript + Vite + Supabase로 구축된 할 일 관리 캘린더 애�
 - **Backend**: Supabase (PostgreSQL)
 - **Styling**: CSS3 with Tailwind CSS classes
 - **State Management**: React Hooks
+- **ChatGPT**
+- **Github Copilot**
 
 ## 설치 및 실행
 
