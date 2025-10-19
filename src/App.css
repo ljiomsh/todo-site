@@ -24,9 +24,109 @@ body {
   font-family: system-ui, -apple-system, sans-serif;
 }
 
+/* 페이지 배경 - 랜덤 그라데이션 색상을 CSS 변수(--bg1, --bg2)로 받아 사용합니다. */
+:root {
+  --bg1: 59, 130, 246;
+  /* fallback */
+  --bg2: 147, 197, 253;
+  /* fallback */
+}
+
+body {
+  /* layered radial gradients for soft colorful background */
+  background:
+    radial-gradient(600px circle at 10% 20%, rgba(var(--bg1), 0.36), transparent 18%),
+    radial-gradient(700px circle at 85% 80%, rgba(var(--bg2), 0.30), transparent 16%),
+    linear-gradient(180deg, rgba(6, 6, 10, 0.6), rgba(4, 4, 6, 0.9));
+  background-attachment: fixed;
+  background-size: cover;
+  color: white;
+}
+
 /* App 컨테이너 - 3% 여백 적용 */
 .app-container {
   padding: 3%;
+}
+
+/* Header 스타일 */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.75rem 1rem;
+}
+
+.header-left {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.header-title {
+  display: flex;
+  align-items: center;
+
+  gap: 0.75rem;
+}
+
+.nav-button {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: white;
+  padding: 0.35rem 0.6rem;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.nav-button:hover {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.month-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.user-email {
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: 500;
+  font-size: 0.95rem;
+}
+
+.signout-button,
+.login-link {
+  background: rgba(255, 255, 255, 0.06);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 0.4rem 0.6rem;
+  border-radius: 6px;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.signout-button:hover,
+.login-link:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+@media (max-width: 640px) {
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .header-right {
+    width: 100%;
+    justify-content: flex-end;
+  }
 }
 
 /* DateCell 컴포넌트 스타일 */
@@ -218,4 +318,114 @@ body {
   text-align: center;
   color: rgba(255, 255, 255, 0.4);
   font-size: 0.75rem;
+}
+
+/* Auth (로그인 / 회원가입) 스타일 */
+.auth-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100vh - 64px);
+  padding: 2rem;
+}
+
+.auth-box {
+  width: 100%;
+  max-width: 420px;
+  /* Glassmorphism */
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.035), rgba(255, 255, 255, 0.02));
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(12px) saturate(120%);
+  -webkit-backdrop-filter: blur(12px) saturate(120%);
+  padding: 1.75rem;
+  border-radius: 12px;
+  box-shadow: 0 10px 40px rgba(2, 6, 23, 0.6);
+}
+
+.auth-title {
+  margin: 0 0 0.75rem 0;
+  font-size: 1.25rem;
+  color: rgba(255, 255, 255, 0.95);
+}
+
+.auth-error {
+  margin-bottom: 0.75rem;
+  background: rgba(255, 59, 59, 0.06);
+  color: #ffb3b3;
+  padding: 0.5rem 0.65rem;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 59, 59, 0.08);
+}
+
+.auth-form .form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  margin-bottom: 0.8rem;
+}
+
+.auth-form label {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.9rem;
+}
+
+.auth-form input {
+  width: 100%;
+  padding: 0.6rem 0.75rem;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  color: white;
+  border-radius: 8px;
+  outline: none;
+  transition: box-shadow 0.15s ease, border-color 0.15s ease;
+}
+
+.auth-form input:focus {
+  border-color: rgba(59, 130, 246, 0.6);
+  box-shadow: 0 6px 20px rgba(59, 130, 246, 0.06);
+}
+
+.auth-button {
+  width: 100%;
+  padding: 0.75rem;
+  background: linear-gradient(90deg, rgba(var(--bg1), 1) 0%, rgba(var(--bg2), 1) 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  box-shadow: 0 6px 20px rgba(2, 6, 23, 0.5);
+}
+
+.auth-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.auth-footer {
+  margin-top: 0.9rem;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.95rem;
+}
+
+.auth-toggle-link {
+  color: white;
+  background: rgba(255, 255, 255, 0.06);
+  padding: 0.25rem 0.5rem;
+  border-radius: 6px;
+  text-decoration: none;
+  margin-left: 0.35rem;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.auth-toggle-link:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+@media (max-width: 640px) {
+  .auth-box {
+    padding: 1rem;
+    margin: 0 0.5rem;
+  }
 }

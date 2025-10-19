@@ -1,6 +1,7 @@
 // Type definitions
 export interface Todo {
     id: number
+    user_id?: string
     text: string
     tags: string[]
     completed: boolean
@@ -15,14 +16,16 @@ export interface Database {
             todos: {
                 Row: {
                     id: number
+                    user_id?: string
                     text: string
                     tags: string[]
                     completed: boolean
                     date: string
-                    created_at: string 
+                    created_at: string
                 }
                 Insert: {
                     id?: number
+                    user_id?: string
                     text: string
                     tags?: string[]
                     completed?: boolean
@@ -31,6 +34,7 @@ export interface Database {
                 }
                 Update: {
                     id?: number
+                    user_id?: string
                     text?: string
                     tags?: string[]
                     completed?: boolean
@@ -58,9 +62,12 @@ export interface HeaderProps {
     totalTodos: number
 }
 
+export type TodoInput = Omit<Todo, 'id' | 'user_id' | 'created_at'>
+export type TodoUpdate = Partial<Omit<Todo, 'id' | 'user_id' | 'created_at'>>
+
 export interface TodoInputProps {
     selectedDate: Date
-    onAdd: (todo: Omit<Todo, 'id' | 'createdAt'>) => void
+    onAdd: (todo: TodoInput) => Promise<void>
     onClose: () => void
 }
 

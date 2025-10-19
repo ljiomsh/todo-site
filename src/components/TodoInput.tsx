@@ -5,8 +5,9 @@ import { dateUtils } from '../utils'
 const TodoInput: React.FC<TodoInputProps> = ({ selectedDate, onAdd, onClose }) => {
     const [text, setText] = useState<string>('')
     const [tag, setTag] = useState<string>('')
+    const [submitting, setSubmitting] = useState<boolean>(false)
 
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
         e.preventDefault()
         if (!text.trim()) return
 
@@ -14,13 +15,21 @@ const TodoInput: React.FC<TodoInputProps> = ({ selectedDate, onAdd, onClose }) =
             .map(t => t.trim())
             .filter(t => t.startsWith('#') && t.length > 1)
 
-        onAdd({
+        const payload = {
             text,
             tags: tags.length > 0 ? tags : [],
             completed: false,
-            date: dateUtils.formatDate(selectedDate),
-            created_at: new Date().toISOString()
-        })
+            date: dateUtils.formatDate(selectedDate)
+        }
+
+        try {
+            setSubmitting(true)
+            await onAdd(payload)
+        } catch (err) {
+            console.error('Error adding todo from modal:', err)
+        } finally {
+            setSubmitting(false)
+        }
 
         setText('')
         setTag('')
@@ -47,10 +56,10 @@ const TodoInput: React.FC<TodoInputProps> = ({ selectedDate, onAdd, onClose }) =
                         placeholder="#태그1, #태그2 형식으로 입력"
                     />
                     <div className="modal-actions">
-                        <button type="submit" className="modal-button primary">
-                            추가
+                        <button type="submit" className="modal-button primary" disabled={submitting}>
+                            {submitting ? '추가 중...' : '추가'}
                         </button>
-                        <button type="button" onClick={onClose} className="modal-button secondary">
+                        <button type="button" onClick={() => !submitting && onClose()} className="modal-button secondary" disabled={submitting}>
                             취소
                         </button>
                     </div>

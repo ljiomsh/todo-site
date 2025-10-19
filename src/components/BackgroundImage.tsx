@@ -3,7 +3,7 @@ import { UnsplashResponse } from '../types'
 
 const BackgroundImage: React.FC = () => {
     const [imageUrl, setImageUrl] = useState<string>('')
-    const [loading, setLoading] = useState<boolean>(true)
+    const [, setLoading] = useState<boolean>(true)
 
     useEffect(() => {
         const fetchRandomImage = async (): Promise<void> => {

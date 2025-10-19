@@ -1,8 +1,8 @@
 import { supabase } from '../lib/supabase'
-import { Todo } from '../types'
+import type { Todo, TodoInput } from '../types'
 
 // Todo 생성
-export const createTodo = async (todo: Omit<Todo, 'id' | 'createdAt'>): Promise<Todo> => {
+export const createTodo = async (todo: TodoInput): Promise<Todo> => {
     const { data, error } = await supabase
         .from('todos')
         .insert({
@@ -10,7 +10,8 @@ export const createTodo = async (todo: Omit<Todo, 'id' | 'createdAt'>): Promise<
             tags: todo.tags,
             completed: todo.completed,
             date: todo.date,
-            created_at: new Date().toISOString()
+            created_at: new Date().toISOString(),
+            user_id: (todo as any).user_id ?? null
         })
         .select()
         .single()
@@ -21,6 +22,7 @@ export const createTodo = async (todo: Omit<Todo, 'id' | 'createdAt'>): Promise<
 
     return {
         id: data.id,
+        user_id: data.user_id,
         text: data.text,
         tags: data.tags,
         completed: data.completed,
@@ -42,6 +44,7 @@ export const getTodos = async (): Promise<Todo[]> => {
 
     return data.map((todo: Todo) => ({
         id: todo.id,
+        user_id: (todo as any).user_id ?? null,
         text: todo.text,
         tags: todo.tags,
         completed: todo.completed,
@@ -64,6 +67,7 @@ export const getTodosByDate = async (date: string): Promise<Todo[]> => {
 
     return data.map((todo: Todo) => ({
         id: todo.id,
+        user_id: (todo as any).user_id ?? null,
         text: todo.text,
         tags: todo.tags,
         completed: todo.completed,
@@ -73,7 +77,7 @@ export const getTodosByDate = async (date: string): Promise<Todo[]> => {
 }
 
 // Todo 수정
-export const updateTodo = async (id: number, updates: Partial<Omit<Todo, 'id' | 'createdAt'>>): Promise<Todo> => {
+export const updateTodo = async (id: number, updates: Partial<Omit<Todo, 'id' | 'created_at'>>): Promise<Todo> => {
     const { data, error } = await supabase
         .from('todos')
         .update({
@@ -92,6 +96,7 @@ export const updateTodo = async (id: number, updates: Partial<Omit<Todo, 'id' | 
 
     return {
         id: data.id,
+        user_id: data.user_id,
         text: data.text,
         tags: data.tags,
         completed: data.completed,
