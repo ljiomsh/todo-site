@@ -187,14 +187,31 @@ const TodoApp: React.FC = () => {
                 onNextMonth={handleNextMonth}
                 totalTodos={todos.length}
             />
-            <Calendar
-                currentDate={currentDate}
-                todos={todos}
-                onDateClick={(d: Date) => setSelectedDateForInput(d)}
-                onToggle={handleToggle}
-                onDelete={handleDelete}
-                onEdit={handleUpdateText}
-            />
+            <div className="calendar-toolbar">
+                <div className="calendar-toolbar-left">
+                    <button className="nav-button mobile-nav" onClick={handlePrevMonth}>이전달</button>
+                    <h2 className="month-title">
+                        {currentDate.getFullYear()}년 {currentDate.toLocaleString('default', { month: 'long' })}
+                    </h2>
+                    <button className="nav-button mobile-nav" onClick={handleNextMonth}>다음달</button>
+                </div>
+                <div className="calendar-toolbar-right">
+                    <div className="todo-count">총 {todos.length}개의 할 일이 있습니다.</div>
+                </div>
+            </div>
+
+            <div className="calendar-wrap">
+                <button className="calendar-side-nav calendar-side-nav--left" onClick={handlePrevMonth} aria-label="이전달">◀</button>
+                <Calendar
+                    currentDate={currentDate}
+                    todos={todos}
+                    onDateClick={(d: Date) => setSelectedDateForInput(d)}
+                    onToggle={handleToggle}
+                    onDelete={handleDelete}
+                    onEdit={handleUpdateText}
+                />
+                <button className="calendar-side-nav calendar-side-nav--right" onClick={handleNextMonth} aria-label="다음달">▶</button>
+            </div>
             <TagFilter
                 tags={getAllTags()}
                 selectedTag={selectedTag}

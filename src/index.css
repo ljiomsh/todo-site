@@ -306,6 +306,7 @@ body {
 
 /* Filter styles */
 .filters {
+  padding-top: 10px;
   display: flex;
   flex-direction: row;
   margin-bottom: 1.5rem;
